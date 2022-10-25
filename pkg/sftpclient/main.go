@@ -34,52 +34,19 @@ func deepLookForContent(path string, contentExt []string) []FilterFiles {
 	return a
 }
 
-// func checkPath(hostPath string) (error, bool) {
-// 	if _, err := os.Stat(hostPath); os.IsNotExist(err) {
-// 		// path/to/whatever does not exist
-// 		fmt.Println("HOST PATH DOES NOT EXIST!")
-// 		return err, false
-// 	}
-// 	return nil, true
-// }
-
-// func filterFiles(path string) []FilterFiles {
-// 	pathError, validPath := checkPath(path)
-// 	if pathError != nil {
-// 		log.Fatal(validPath)
-// 		os.Exit(1)
-// 	}
-// 	hostPathFiles, err := ioutil.ReadDir(path)
-// 	if err != nil {
-// 		log.Fatal(err)
-// 		os.Exit(1)
-// 	}
-// 	var filterArray []FilterFiles
-// 	for _, file := range hostPathFiles {
-// 		fmt.Println(file.Name(), file.IsDir())
-// 		if !file.IsDir() && !strings.Contains(file.Name(), ".HEIC") {
-// 			filterArray = append(filterArray, FilterFiles{hostFilePath: path + "/" + file.Name(), fileName: file.Name()})
-// 		}
-// 	}
-// 	return filterArray
-// }
-
 // change to read from env todo
 func setupConfig(clientConfig config.Configurations) ssh.ClientConfig {
 	var auths []ssh.AuthMethod
 	auths = append(auths, ssh.Password(clientConfig.Sftp.Pass))
 	sshConfig := ssh.ClientConfig{
-		User: clientConfig.Sftp.User,
-		Auth: auths,
-		// Uncomment to ignore host key check
+		User:            clientConfig.Sftp.User,
+		Auth:            auths,
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 	}
 	return sshConfig
 }
 
 func Start(hostPath string, distPath string, clientConfig config.Configurations) {
-
-	//extend to look for mutliple paths
 	imageContentMineType := []string{".PNG", ".JPG"}
 	filterFiles := deepLookForContent(hostPath, imageContentMineType)
 	sshConfig := setupConfig(clientConfig)
