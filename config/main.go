@@ -21,8 +21,6 @@ func GetConfig() (config Configurations, err error) {
 	viper.AddConfigPath(".")
 	viper.SetConfigName("config") // Register config file name (no extension)
 	viper.SetConfigType("json")   // Look for specific type
-
-	// viper.AutomaticEnv()
 	err = viper.ReadInConfig()
 	if err != nil {
 		return
