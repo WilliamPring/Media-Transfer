@@ -74,7 +74,7 @@ func Start(hostPath string, distPath string, clientConfig config.Configurations)
 	}
 	defer sc.Close()
 	for _, filterFile := range filterFiles {
-		uploadFile(sc, filterFile.hostFilePath, "./media/images/"+filterFile.fileName)
+		uploadFile(sc, filterFile.hostFilePath, fmt.Sprintf("%s/%s", distPath, filterFile.fileName))
 	}
 }
 
